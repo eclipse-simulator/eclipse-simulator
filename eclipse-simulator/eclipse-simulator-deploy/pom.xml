@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>eclipse-simulator</artifactId>
+        <groupId>pwr</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>eclipse-simulator-deploy</artifactId>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <packaging>pom</packaging>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+
+                <executions>
+
+                    <execution> <!-- Upload the Swagger template to S3 -->
+                        <id>sam-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>aws</executable>
+                            <arguments>
+                                <argument>--profile=default</argument>
+                                <argument>s3</argument>
+                                <argument>cp</argument>
+                                <argument>./api.yaml</argument>
+                                <argument>s3://test-eclipse-simulator-bucket-2/sam/api/eclipse-simulator/api.yaml</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution> <!-- Use SAM to upload all the Lambda packages to S3 -->
+                        <id>sam-install</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>sam</executable>
+                            <arguments>
+                                <argument>package</argument>
+                                <argument>--force-upload</argument>
+                                <argument>--template-file=./sam.yaml</argument>
+                                <argument>--output-template-file=target/packaged.yaml</argument>
+                                <argument>--s3-bucket=test-eclipse-simulator-bucket-2</argument>
+                                <argument>--s3-prefix=sam/${project.artifactId}/${project.version}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution> <!-- Use AWS Cloudformation to deploy the SAM template -->
+                        <id>sam-deploy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>aws</executable>
+                            <arguments>
+                                <argument>cloudformation</argument>
+                                <argument>deploy</argument>
+                                <argument>--role-arn=arn:aws:iam::349872647055:role/CloudformationDeploymentRole</argument>
+                                <argument>--template-file=target/packaged.yaml</argument>
+                                <argument>--s3-bucket=test-eclipse-simulator-bucket-2</argument>
+                                <argument>--s3-prefix=sam/${project.artifactId}/${project.version}</argument>
+                                <argument>--force-upload</argument>
+                                <argument>--stack-name=test-stack-1</argument>
+                                <argument>--region=eu-west-2</argument>
+                                <argument>--capabilities=CAPABILITY_IAM</argument>
+                                <argument>--no-fail-on-empty-changeset</argument>
+                            </arguments>
+                        </configuration>
+                        <inherited>false</inherited>
+                    </execution>
+
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

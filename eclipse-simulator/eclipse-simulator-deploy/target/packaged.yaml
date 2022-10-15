@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Eclipse-Simulator
+Parameters:
+  Repository:
+    Type: String
+    Description: URL of the GitHub repo where the stack is located
+    Default: https://github.com/eclipse-simulator/eclipse-simulator
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Hello world function
+      CodeUri: s3://test-eclipse-simulator-bucket-2/sam/eclipse-simulator-deploy/1.0-SNAPSHOT/c0771eb8cd038479c58f39678d6a893e
+      Handler: pwr.api.handlers.HelloWorldHandler::handleRequest
+      Runtime: java11
+      Timeout: 20
+      Policies:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      SamResourceId: HelloWorldFunction

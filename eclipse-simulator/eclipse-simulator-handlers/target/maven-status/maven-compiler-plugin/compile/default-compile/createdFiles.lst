@@ -1,0 +1,9 @@
+pwr\api\request\BaseRequestData.class
+pwr\api\handlers\BaseHandler.class
+pwr\api\handlers\GenericHandler.class
+pwr\api\response\BaseResponseData$BaseResponseDataBuilder.class
+pwr\api\request\BaseRequestData$BaseRequestDataBuilderImpl.class
+pwr\api\handlers\HelloWorldHandler.class
+pwr\api\response\BaseResponseData$BaseResponseDataBuilderImpl.class
+pwr\api\request\BaseRequestData$BaseRequestDataBuilder.class
+pwr\api\response\BaseResponseData.class
