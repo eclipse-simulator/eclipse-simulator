@@ -11,7 +11,6 @@
 *.ipr
 *.ids
 *.orig
-*.xml
 classes/
 out/
 
@@ -20,8 +19,6 @@ out/
 ######################
 log/
 target/
-eclipse-simulator-deploy/target/
-eclipse-simulator-handlers/target/
 
 ######################
 # Package Files
