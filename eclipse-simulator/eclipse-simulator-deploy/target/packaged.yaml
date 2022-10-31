@@ -7,15 +7,144 @@ Parameters:
     Description: URL of the GitHub repo where the stack is located
     Default: https://github.com/eclipse-simulator/eclipse-simulator
 Resources:
-  HelloWorldFunction:
+  EclipseSimulatorApi:
+    Type: AWS::AppSync::GraphQLApi
+    Properties:
+      AuthenticationType: API_KEY
+      Name: Eclipse-simulator-api
+      LogConfig:
+        CloudWatchLogsRoleArn:
+          Fn::GetAtt:
+          - EclipseSimulatorServiceRole
+          - Arn
+        FieldLogLevel: ALL
+    Metadata:
+      SamResourceId: EclipseSimulatorApi
+  EclipseSimulatorApiSchema:
+    Type: AWS::AppSync::GraphQLSchema
+    Properties:
+      ApiId:
+        Fn::GetAtt:
+        - EclipseSimulatorApi
+        - ApiId
+      DefinitionS3Location: s3://test-eclipse-simulator-bucket-2/sam/eclipse-simulator-deploy/1.0-SNAPSHOT/0eb34553b3b02627d05641444222b363
+    Metadata:
+      SamResourceId: EclipseSimulatorApiSchema
+  SimulationLambdaDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      Name: SimulationLambdaDataSource
+      Type: AWS_LAMBDA
+      ApiId:
+        Fn::GetAtt:
+        - EclipseSimulatorApi
+        - ApiId
+      Description: Simulation Lambda DataSource
+      ServiceRoleArn:
+        Fn::GetAtt:
+        - EclipseSimulatorServiceRole
+        - Arn
+      LambdaConfig:
+        LambdaFunctionArn:
+          Fn::GetAtt:
+          - SimulationFunction
+          - Arn
+    Metadata:
+      SamResourceId: SimulationLambdaDataSource
+  SimulationFunction:
     Type: AWS::Serverless::Function
     Properties:
       Description: Hello world function
-      CodeUri: s3://test-eclipse-simulator-bucket-2/sam/eclipse-simulator-deploy/1.0-SNAPSHOT/c0771eb8cd038479c58f39678d6a893e
-      Handler: pwr.api.handlers.HelloWorldHandler::handleRequest
+      CodeUri: s3://test-eclipse-simulator-bucket-2/sam/eclipse-simulator-deploy/1.0-SNAPSHOT/19ad78b467a105bd5aadb01cd02f8398
+      Handler: pwr.api.handler.SimulationHandler::handleRequest
       Runtime: java11
       Timeout: 20
       Policies:
       - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
     Metadata:
-      SamResourceId: HelloWorldFunction
+      SamResourceId: SimulationFunction
+  SimulationPipelineResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId:
+        Fn::GetAtt:
+        - EclipseSimulatorApi
+        - ApiId
+      TypeName: Mutation
+      FieldName: simulateFight
+      RequestMappingTemplate: '$util.qr($ctx.stash.put("args", $ctx.args))
+
+        {}
+
+        '
+      ResponseMappingTemplate: '$util.toJson($context.result)
+
+        '
+      Kind: PIPELINE
+      PipelineConfig:
+        Functions:
+        - Fn::GetAtt:
+          - SimulationPipelineFunction
+          - FunctionId
+    Metadata:
+      SamResourceId: SimulationPipelineResolver
+  SimulationPipelineFunction:
+    Type: AWS::AppSync::FunctionConfiguration
+    Properties:
+      ApiId:
+        Fn::GetAtt:
+        - EclipseSimulatorApi
+        - ApiId
+      Name: SimulationPipelineFunction
+      Description: Simulation pipeline function
+      DataSourceName:
+        Fn::GetAtt:
+        - SimulationLambdaDataSource
+        - Name
+      RequestMappingTemplate: "{\n    \"version\": \"2017-02-28\",\n    \"operation\"\
+        : \"Invoke\",\n    \"payload\": {\n        \"firstPlayerFleet\": $util.toJson($ctx.stash.args.firstPlayerFleet),\n\
+        \        \"secondPlayerFleet\": $util.toJson($ctx.stash.args.secondPlayerFleet),\n\
+        \        \"repetitions\": $util.toJson($ctx.stash.args.repetitions)\n    }\n\
+        }\n"
+      ResponseMappingTemplate: "#foreach($error in $ctx.result.errors)\n  $util.appendError(\"\
+        ${error.message}\", $error.type, \"\", $error.errorCode)\n#end\n$util.toJson($ctx.result.response)\n"
+      FunctionVersion: '2018-05-29'
+    Metadata:
+      SamResourceId: SimulationPipelineFunction
+  EclipseSimulatorServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - appsync.amazonaws.com
+          Action:
+          - sts:AssumeRole
+    Metadata:
+      SamResourceId: EclipseSimulatorServiceRole
+  EclipseSimulatorLogsPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Policy for logging
+      Roles:
+      - Ref: EclipseSimulatorServiceRole
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Action:
+          - lambda:*
+          Resource:
+          - '*'
+        - Effect: Allow
+          Action:
+          - logs:CreateLogStream
+          - logs:CreateLogGroup
+          - logs:PutLogEvents
+          Resource:
+          - '*'
+    Metadata:
+      SamResourceId: EclipseSimulatorLogsPolicy

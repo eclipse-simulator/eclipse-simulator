@@ -1,0 +1,26 @@
+input ShipInput {
+    shipType:String
+    fields:[String]
+}
+
+input FleetInput {
+    ships:[ShipInput]
+}
+
+type SimulationResult {
+    firstPlayerWinRate:Float
+    secondPlayerWinRate:Float
+}
+
+type Query {
+    dummyQuery(arg:String):String
+}
+
+type Mutation {
+    simulateFight(firstPlayerFleet:FleetInput, secondPlayerFleet:FleetInput, repetitions:Int): SimulationResult
+}
+
+schema {
+    query:Query
+    mutation:Mutation
+}

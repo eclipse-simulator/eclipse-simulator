@@ -10,13 +10,118 @@ Parameters:
 
 Resources:
 
-  HelloWorldFunction:
+  EclipseSimulatorApi:
+    Type: AWS::AppSync::GraphQLApi
+    Properties:
+      AuthenticationType: API_KEY
+      Name: 'Eclipse-simulator-api'
+      LogConfig:
+        CloudWatchLogsRoleArn: !GetAtt EclipseSimulatorServiceRole.Arn
+        FieldLogLevel: 'ALL'
+
+  EclipseSimulatorApiSchema:
+    Type: AWS::AppSync::GraphQLSchema
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      DefinitionS3Location: schema.graphql
+
+  SimulationLambdaDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      Name: SimulationLambdaDataSource
+      Type: AWS_LAMBDA
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      Description: Simulation Lambda DataSource
+      ServiceRoleArn: !GetAtt EclipseSimulatorServiceRole.Arn
+      LambdaConfig:
+        LambdaFunctionArn: !GetAtt SimulationFunction.Arn
+
+  SimulationFunction:
     Type: AWS::Serverless::Function
     Properties:
       Description: Hello world function
       CodeUri: ../eclipse-simulator-handlers/target/lambda.jar
-      Handler: pwr.api.handlers.HelloWorldHandler::handleRequest
+      Handler: pwr.api.handler.SimulationHandler::handleRequest
       Runtime: java11
       Timeout: 20
       Policies:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  SimulationPipelineResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      TypeName: Mutation
+      FieldName: "simulateFight"
+      # language=VTL
+      RequestMappingTemplate: |
+        $util.qr($ctx.stash.put("args", $ctx.args))
+        {}
+      # language=VTL
+      ResponseMappingTemplate: |
+        $util.toJson($context.result)
+      Kind: "PIPELINE"
+      PipelineConfig:
+        Functions:
+          - !GetAtt SimulationPipelineFunction.FunctionId
+
+  SimulationPipelineFunction:
+    Type: AWS::AppSync::FunctionConfiguration
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      Name: "SimulationPipelineFunction"
+      Description: "Simulation pipeline function"
+      DataSourceName: !GetAtt SimulationLambdaDataSource.Name
+      # language=VTL
+      RequestMappingTemplate: |
+        {
+            "version": "2017-02-28",
+            "operation": "Invoke",
+            "payload": {
+                "firstPlayerFleet": $util.toJson($ctx.stash.args.firstPlayerFleet),
+                "secondPlayerFleet": $util.toJson($ctx.stash.args.secondPlayerFleet),
+                "repetitions": $util.toJson($ctx.stash.args.repetitions)
+            }
+        }
+      # language=VTL
+      ResponseMappingTemplate: |
+        #foreach($error in $ctx.result.errors)
+          $util.appendError("${error.message}", $error.type, "", $error.errorCode)
+        #end
+        $util.toJson($ctx.result.response)
+      FunctionVersion: "2018-05-29"
+
+  EclipseSimulatorServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -   Effect: Allow
+              Principal:
+                Service:
+                  - appsync.amazonaws.com
+              Action:
+                - sts:AssumeRole
+
+  EclipseSimulatorLogsPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Policy for logging
+      Roles:
+        - !Ref EclipseSimulatorServiceRole
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - lambda:*
+            Resource:
+              - '*'
+          - Effect: Allow
+            Action:
+              - 'logs:CreateLogStream'
+              - 'logs:CreateLogGroup'
+              - 'logs:PutLogEvents'
+            Resource:
+              - '*'

@@ -4,12 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import pwr.api.exception.BaseException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @SuperBuilder
-@AllArgsConstructor
 @NoArgsConstructor
-public class BaseResponseData
+@AllArgsConstructor
+public class BaseResponseData<R>
 {
-    private String message;
+    R response;
+    private List<? super BaseException> errors = new ArrayList<>();
 }
