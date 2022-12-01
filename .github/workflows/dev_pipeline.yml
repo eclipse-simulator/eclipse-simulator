@@ -45,7 +45,7 @@ jobs:
           role-session-name: ${{ env.AWS_SESSION_NAME }}
 
       - name: Validate SAM File
-        run: aws cloudformation validate-template --template-body file://sam.yaml
+        run: aws cloudformation validate-template --template-body file://eclipse-simulator/eclipse-simulator-deploy/sam.yaml
 
       - name: Run tests and Build Lambdas
         run: mvn verify --batch-mode
