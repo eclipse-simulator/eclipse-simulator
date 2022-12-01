@@ -5,19 +5,25 @@ import lombok.EqualsAndHashCode;
 import pwr.api.enums.ErrorCode;
 import pwr.api.enums.ExceptionType;
 
-import static pwr.api.enums.ErrorCode.INTERNAL_SERVER_ERROR;
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class BaseException extends RuntimeException
 {
-    public ExceptionType type;
+    public ExceptionType exceptionType;
 
-    public ErrorCode code = INTERNAL_SERVER_ERROR;
+    public ErrorCode errorCode;
 
-    public BaseException(ExceptionType exceptionType, String message)
+    public BaseException(ExceptionType exceptionType, ErrorCode errorCode)
+    {
+        super(errorCode.getDefaultMessage());
+        this.exceptionType = exceptionType;
+        this.errorCode = errorCode;
+    }
+
+    public BaseException(ExceptionType exceptionType, String message, ErrorCode errorCode)
     {
         super(message);
-        this.type = exceptionType;
+        this.exceptionType = exceptionType;
+        this.errorCode = errorCode;
     }
 }

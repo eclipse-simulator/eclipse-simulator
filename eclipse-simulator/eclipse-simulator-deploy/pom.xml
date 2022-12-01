@@ -80,7 +80,7 @@
                                 <argument>--s3-bucket=test-eclipse-simulator-bucket-2</argument>
                                 <argument>--s3-prefix=sam/${project.artifactId}/${project.version}</argument>
                                 <argument>--force-upload</argument>
-                                <argument>--stack-name=test-stack-1</argument>
+                                <argument>--stack-name=eclipse-simulator</argument>
                                 <argument>--region=eu-west-2</argument>
                                 <argument>--capabilities=CAPABILITY_IAM</argument>
                                 <argument>--no-fail-on-empty-changeset</argument>

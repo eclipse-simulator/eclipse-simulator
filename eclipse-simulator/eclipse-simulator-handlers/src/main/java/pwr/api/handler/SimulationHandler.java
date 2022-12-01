@@ -14,26 +14,34 @@ import pwr.api.simulation.SimulationResult;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pwr.api.enums.ErrorCode.BAD_REQUEST_ERROR;
 import static pwr.api.enums.ExceptionType.ERROR;
 
 public class SimulationHandler extends BaseHandler<SimulationRequestData, SimulationResponseData>
 {
+    private static final String ATTACKING_PLAYER_WIN_RATE = "Attacking player win rate: ";
+    private static final String DEFENDING_PLAYER_WIN_RATE = "Defending player win rate: ";
+    private static final String PERCENTAGE = "%";
+
     @Override
     public SimulationResponseData processRequest(SimulationRequestData simulationRequestData)
     {
 
         validateRequest(simulationRequestData);
 
-        List<Ship> firstPlayerShips = toShipList(simulationRequestData.getFirstPlayerFleet().getShips());
-        List<Ship> secondPlayerShips = toShipList(simulationRequestData.getSecondPlayerFleet().getShips());
+        List<Ship> attackingPlayerShips = toShipList(simulationRequestData.getAttackingPlayerFleet().getShips());
+        List<Ship> defendingPlayerShips = toShipList(simulationRequestData.getDefendingPlayerFleet().getShips());
 
-        validateShips(firstPlayerShips);
-        validateShips(secondPlayerShips);
+        validateShips(attackingPlayerShips);
+        validateShips(defendingPlayerShips);
 
         Simulation simulation = new Simulation();
 
-        SimulationResult simulationResult = simulation.simulateFight(firstPlayerShips, secondPlayerShips,
+        SimulationResult simulationResult = simulation.simulateFight(attackingPlayerShips, defendingPlayerShips,
                 simulationRequestData.getRepetitions());
+
+        System.out.println(ATTACKING_PLAYER_WIN_RATE + simulationResult.getAttackingPlayerWinRate() + PERCENTAGE);
+        System.out.println(DEFENDING_PLAYER_WIN_RATE + simulationResult.getDefendingPlayerWinRate() + PERCENTAGE);
 
         return new SimulationResponseData(simulationResult);
     }
@@ -41,16 +49,16 @@ public class SimulationHandler extends BaseHandler<SimulationRequestData, Simula
     @Override
     protected void validateRequest(SimulationRequestData request)
     {
-        FleetDTO firstPlayerFleet = request.getFirstPlayerFleet();
-        FleetDTO secondPlayerFleet = request.getSecondPlayerFleet();
+        FleetDTO attackingPlayerFleet = request.getAttackingPlayerFleet();
+        FleetDTO defendingPlayerFleet = request.getDefendingPlayerFleet();
 
         if(request.getRepetitions() < 0)
-            throw new BaseException(ERROR, "Repetitions number must be bigger then 0");
+            throw new BaseException(ERROR, "Repetitions number must be bigger then 0", BAD_REQUEST_ERROR);
 
-        if(firstPlayerFleet == null || secondPlayerFleet == null || firstPlayerFleet.getShips() == null ||
-                secondPlayerFleet.getShips() == null || firstPlayerFleet.getShips().isEmpty() ||
-                secondPlayerFleet.getShips().isEmpty())
-            throw new BaseException(ERROR, "Fleet can't be empty");
+        if(attackingPlayerFleet == null || defendingPlayerFleet == null || attackingPlayerFleet.getShips() == null ||
+                defendingPlayerFleet.getShips() == null || attackingPlayerFleet.getShips().isEmpty() ||
+                defendingPlayerFleet.getShips().isEmpty())
+            throw new BaseException(ERROR, "Fleet can't be empty", BAD_REQUEST_ERROR);
     }
 
     private List<Ship> toShipList(List<ShipDTO> shipDTOList)

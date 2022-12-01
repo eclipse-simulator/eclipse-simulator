@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class SimulationResult
 {
-    float firstPlayerWinRate;
-    float secondPlayerWinRate;
+    float attackingPlayerWinRate;
+    float defendingPlayerWinRate;
 }

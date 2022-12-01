@@ -4,7 +4,60 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17324040-5ba5-4b4e-85c4-d02617fc7e77" name="Changes" comment="" />
+    <list default="true" id="17324040-5ba5-4b4e-85c4-d02617fc7e77" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/EnergySource1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/EnergySource2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/EnergySource3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-deploy/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/sam.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-deploy/sam.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-deploy/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-deploy/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/target/packaged.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-deploy/target/packaged.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/constants/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/constants/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/dto/FleetDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/dto/FleetDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Cruiser.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Cruiser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Dreadnought.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Dreadnought.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Interceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Interceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Cannon1.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Cannon1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Cannon2.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Cannon2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Cannon3.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Cannon3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Cannon4.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Cannon4.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Computer1.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Computer1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Computer2.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Computer2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Computer3.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Computer3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Drive1.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Drive1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Drive2.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Drive2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Drive3.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Drive3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Field.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Hull1.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Hull1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Hull2.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Hull2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Hull3.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Hull3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Missile1.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Missile1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Missile2.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Missile2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Shield1.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Shield1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Shield2.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Shield2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/enums/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/enums/ErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/enums/FieldName.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/enums/FieldName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/enums/FieldType.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/enums/FieldType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/exception/BaseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/exception/BaseException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/handler/BaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/handler/BaseHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/handler/SimulationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/handler/SimulationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/request/SimulationRequestData.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/request/SimulationRequestData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/response/SimulationResponseData.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/response/SimulationResponseData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/simulation/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/simulation/Simulation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/simulation/SimulationResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/simulation/SimulationResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/LambdaMockContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/helpers/LambdaMockContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/SimulationHandlerIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/SimulationHandlerIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/surefire-reports/pwr.api.handler.SimulationHandlerIntegrationTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/surefire-reports/pwr.api.handler.SimulationHandlerIntegrationTest.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,84 +99,87 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="pwr.api.response" />
       <recent name="pwr.api.handler" />
+      <recent name="pwr.api.response" />
+      <recent name="pwr.api.request" />
       <recent name="pwr.api.entity.upgrade" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SimulationHandlerIntegrationTest.shouldCreateResponseWithAnError">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="pwr.Main" />
+  <component name="RunManager" selected="JUnit.DynamoDBClientIntegrationTest.getItemShouldReturnNull">
+    <configuration name="DynamoDBClientIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="eclipse-simulator-handlers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pwr.*" />
+          <option name="PATTERN" value="pwr.api.dynamodb.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="pwr.api.dynamodb" />
+      <option name="MAIN_CLASS_NAME" value="pwr.api.dynamodb.DynamoDBClientIntegrationTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SimulationHandlerIntegrationTest.shouldCreateResponseWithAnError" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DynamoDBClientIntegrationTest.getItemShouldReturnNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="eclipse-simulator-handlers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pwr.api.handler.*" />
+          <option name="PATTERN" value="pwr.api.dynamodb.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pwr.api.handler" />
-      <option name="MAIN_CLASS_NAME" value="pwr.api.handler.SimulationHandlerIntegrationTest" />
-      <option name="METHOD_NAME" value="shouldCreateResponseWithAnError" />
+      <option name="PACKAGE_NAME" value="pwr.api.dynamodb" />
+      <option name="MAIN_CLASS_NAME" value="pwr.api.dynamodb.DynamoDBClientIntegrationTest" />
+      <option name="METHOD_NAME" value="getItemShouldReturnNull" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SimulationHandlerIntegrationTest.shouldSimulateFightSuccessfully" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DynamoDBClientIntegrationTest.shouldGetItemSuccessfully" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="eclipse-simulator-handlers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pwr.api.handler.*" />
+          <option name="PATTERN" value="pwr.api.dynamodb.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pwr.api.handler" />
-      <option name="MAIN_CLASS_NAME" value="pwr.api.handler.SimulationHandlerIntegrationTest" />
-      <option name="METHOD_NAME" value="shouldSimulateFightSuccessfully" />
+      <option name="PACKAGE_NAME" value="pwr.api.dynamodb" />
+      <option name="MAIN_CLASS_NAME" value="pwr.api.dynamodb.DynamoDBClientIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldGetItemSuccessfully" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestHandlerIntegrationTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DynamoDBClientIntegrationTest.shouldPutItemSuccessfully" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="eclipse-simulator-handlers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pwr.api.handler.*" />
+          <option name="PATTERN" value="pwr.api.dynamodb.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pwr.api.handler" />
-      <option name="MAIN_CLASS_NAME" value="pwr.api.handler.TestHandlerIntegrationTest" />
+      <option name="PACKAGE_NAME" value="pwr.api.dynamodb" />
+      <option name="MAIN_CLASS_NAME" value="pwr.api.dynamodb.DynamoDBClientIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldPutItemSuccessfully" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DynamoDBClientIntegrationTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="eclipse-simulator-handlers" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pwr.api.dynamodb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pwr.api.dynamodb" />
+      <option name="MAIN_CLASS_NAME" value="pwr.api.dynamodb.DynamoDBClientIntegrationTest" />
       <option name="METHOD_NAME" value="test" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestHandlerIntegrationTest.test2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="eclipse-simulator-handlers" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="pwr.api.handler.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="pwr.api.handler" />
-      <option name="MAIN_CLASS_NAME" value="pwr.api.handler.TestHandlerIntegrationTest" />
-      <option name="METHOD_NAME" value="test2" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -131,11 +187,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SimulationHandlerIntegrationTest.shouldCreateResponseWithAnError" />
-        <item itemvalue="JUnit.SimulationHandlerIntegrationTest.shouldSimulateFightSuccessfully" />
-        <item itemvalue="JUnit.TestHandlerIntegrationTest.test" />
-        <item itemvalue="JUnit.TestHandlerIntegrationTest.test2" />
-        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.DynamoDBClientIntegrationTest.getItemShouldReturnNull" />
+        <item itemvalue="JUnit.DynamoDBClientIntegrationTest.test" />
+        <item itemvalue="JUnit.DynamoDBClientIntegrationTest" />
+        <item itemvalue="JUnit.DynamoDBClientIntegrationTest.shouldGetItemSuccessfully" />
+        <item itemvalue="JUnit.DynamoDBClientIntegrationTest.shouldPutItemSuccessfully" />
       </list>
     </recent_temporary>
   </component>
@@ -166,8 +222,42 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/SimulationHandlerIntegrationTest.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="14" />
+          <line>78</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/cognito/CognitoClient.java</url>
+          <line>86</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/SimulationHandlerIntegrationTest.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/dynamodb/DynamoDBClient.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/dynamodb/DynamoDBClientIntegrationTest.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/dynamodb/DynamoDBClientIntegrationTest.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/CognitoClientIntegrationTest.java</url>
+          <line>74</line>
+          <properties class="pwr.api.handler.CognitoClientIntegrationTest" method="shouldThrowAnExceptionWhenWrongPasswordIsUsed">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

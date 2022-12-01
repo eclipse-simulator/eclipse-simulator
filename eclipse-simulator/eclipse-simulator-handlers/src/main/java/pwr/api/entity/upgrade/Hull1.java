@@ -9,7 +9,11 @@ import pwr.api.enums.FieldType;
 @EqualsAndHashCode(callSuper = true)
 public class Hull1 extends Field
 {
-    private FieldType fieldType = FieldType.HULL;
-    private FieldName name = FieldName.HULL;
-    private int hp = 1;
+    public Hull1()
+    {
+        super();
+        setFieldType(FieldType.HULL);
+        setName(FieldName.HULL);
+        setHp(1);
+    }
 }

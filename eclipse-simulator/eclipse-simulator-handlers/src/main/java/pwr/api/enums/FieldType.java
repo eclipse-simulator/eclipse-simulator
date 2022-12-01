@@ -6,5 +6,6 @@ public enum FieldType {
     CANNON,
     MISSILE,
     HULL,
-    DRIVE
+    DRIVE,
+    ENERGY_SOURCE
 }

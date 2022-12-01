@@ -12,7 +12,7 @@ import pwr.api.dto.FleetDTO;
 @EqualsAndHashCode(callSuper = true)
 public class SimulationRequestData extends BaseRequestData
 {
-    private FleetDTO firstPlayerFleet;
-    private FleetDTO secondPlayerFleet;
+    private FleetDTO attackingPlayerFleet;
+    private FleetDTO defendingPlayerFleet;
     private int repetitions;
 }

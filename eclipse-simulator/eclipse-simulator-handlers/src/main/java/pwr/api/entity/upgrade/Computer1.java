@@ -2,8 +2,6 @@ package pwr.api.entity.upgrade;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import pwr.api.enums.FieldName;
-import pwr.api.enums.FieldType;
 
 import static pwr.api.enums.FieldName.GLUON_COMPUTER;
 import static pwr.api.enums.FieldType.COMPUTER;
@@ -12,7 +10,11 @@ import static pwr.api.enums.FieldType.COMPUTER;
 @EqualsAndHashCode(callSuper = true)
 public class Computer1 extends Field
 {
-    private FieldType fieldType = COMPUTER;
-    private FieldName name = GLUON_COMPUTER;
-    private int hitChanceBuff = 1;
+    public Computer1()
+    {
+        super();
+        setFieldType(COMPUTER);
+        setName(GLUON_COMPUTER);
+        setHitChanceBuff(1);
+    }
 }

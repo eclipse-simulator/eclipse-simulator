@@ -108,10 +108,7 @@ public abstract class Ship
         }
     }
 
-    public void validate()
-    {
-
-    }
+    public abstract void validate();
 
     private void calculateInitiative()
     {

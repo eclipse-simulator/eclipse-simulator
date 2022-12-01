@@ -138,6 +138,33 @@ public enum FieldName {
                 {
                     return new Drive3();
                 }
+            },
+
+    ENERGY_SOURCE_1()
+            {
+                @Override
+                public Field createInstance()
+                {
+                    return new EnergySource1();
+                }
+            },
+
+    ENERGY_SOURCE_2()
+            {
+                @Override
+                public Field createInstance()
+                {
+                    return new EnergySource1();
+                }
+            },
+
+    ENERGY_SOURCE_3()
+            {
+                @Override
+                public Field createInstance()
+                {
+                    return new EnergySource1();
+                }
             };
 
     public abstract Field createInstance();

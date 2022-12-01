@@ -8,8 +8,8 @@ input FleetInput {
 }
 
 type SimulationResult {
-    firstPlayerWinRate:Float
-    secondPlayerWinRate:Float
+    attackingPlayerWinRate:Float
+    defendingPlayerWinRate:Float
 }
 
 type Query {
@@ -17,7 +17,8 @@ type Query {
 }
 
 type Mutation {
-    simulateFight(firstPlayerFleet:FleetInput, secondPlayerFleet:FleetInput, repetitions:Int): SimulationResult
+    simulateFight(attackingPlayerFleet:FleetInput, defendingPlayerFleet:FleetInput, repetitions:Int): SimulationResult
+    @aws_auth(cognito_groups: ["ADMIN", "USER"])
 }
 
 schema {

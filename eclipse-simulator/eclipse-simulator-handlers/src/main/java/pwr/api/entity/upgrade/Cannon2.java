@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import pwr.api.enums.FieldName;
 import pwr.api.enums.FieldType;
 
+import static pwr.api.enums.FieldName.ION_CANNON;
 import static pwr.api.enums.FieldName.PLASMA_CANNON;
 import static pwr.api.enums.FieldType.CANNON;
 
@@ -12,8 +13,12 @@ import static pwr.api.enums.FieldType.CANNON;
 @EqualsAndHashCode(callSuper = true)
 public class Cannon2 extends Field
 {
-    private FieldType fieldType = CANNON;
-    private FieldName name = PLASMA_CANNON;
-    private int requiredEnergy = 2;
-    private int damage = 2;
+    public Cannon2()
+    {
+        super();
+        setFieldType(CANNON);
+        setName(PLASMA_CANNON);
+        setEnergy(-2);
+        setDamage(2);
+    }
 }

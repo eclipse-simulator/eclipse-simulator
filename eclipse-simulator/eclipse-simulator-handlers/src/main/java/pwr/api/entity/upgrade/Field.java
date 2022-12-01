@@ -9,10 +9,19 @@ public abstract class Field
 {
     private FieldType fieldType;
     private FieldName name;
-    private int initiative = 0;
-    private int hp = 10;
-    private int hitChanceBuff = 0;
-    private int hitChanceDeBuff = 0;
-    private int requiredEnergy = 0;
-    private int damage = 0;
+    private int initiative;
+    private int hp;
+    private int hitChanceBuff;
+    private int hitChanceDeBuff;
+    private int energy;
+    private int damage;
+    public Field()
+    {
+        initiative = 0;
+        hp = 10;
+        hitChanceBuff = 0;
+        hitChanceDeBuff = 0;
+        energy = 0;
+        damage = 0;
+    }
 }

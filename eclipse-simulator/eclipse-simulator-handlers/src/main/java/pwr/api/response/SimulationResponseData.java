@@ -10,12 +10,12 @@ import pwr.api.simulation.SimulationResult;
 @With
 public class SimulationResponseData
 {
-    float firstPlayerWinRate;
-    float secondPlayerWinRate;
+    float attackingPlayerWinRate;
+    float defendingPlayerWinRate;
 
     public SimulationResponseData(SimulationResult simulationResult)
     {
-        this.firstPlayerWinRate = simulationResult.getFirstPlayerWinRate();
-        this.secondPlayerWinRate = simulationResult.getSecondPlayerWinRate();
+        this.attackingPlayerWinRate = simulationResult.getAttackingPlayerWinRate();
+        this.defendingPlayerWinRate = simulationResult.getDefendingPlayerWinRate();
     }
 }

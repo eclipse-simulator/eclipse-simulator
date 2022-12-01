@@ -1,4 +1,4 @@
-package pwr.api.handler;
+package pwr.api.handler.helpers;
 
 import com.amazonaws.services.lambda.runtime.ClientContext;
 import com.amazonaws.services.lambda.runtime.CognitoIdentity;

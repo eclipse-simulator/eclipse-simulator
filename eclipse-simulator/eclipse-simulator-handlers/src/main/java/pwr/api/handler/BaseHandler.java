@@ -7,6 +7,7 @@ import pwr.api.response.BaseResponseData;
 
 import java.lang.reflect.ParameterizedType;
 
+import static pwr.api.enums.ErrorCode.INTERNAL_SERVER_ERROR;
 import static pwr.api.enums.ExceptionType.ERROR;
 import static pwr.api.utils.JsonMapperUtil.convertToObject;
 
@@ -48,7 +49,7 @@ public abstract class BaseHandler<R, O> implements RequestHandler<Object, BaseRe
         {
             System.err.println(e.getMessage());
             response.getErrors()
-                    .add(new BaseException(ERROR, e.getMessage()));
+                    .add(new BaseException(ERROR, e.getMessage(), INTERNAL_SERVER_ERROR));
             return response;
         }
     }

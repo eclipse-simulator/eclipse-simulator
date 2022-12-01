@@ -1,16 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Eclipse-Simulator
-Parameters:
-  Repository:
-    Type: String
-    Description: URL of the GitHub repo where the stack is located
-    Default: https://github.com/eclipse-simulator/eclipse-simulator
 Resources:
   EclipseSimulatorApi:
     Type: AWS::AppSync::GraphQLApi
     Properties:
-      AuthenticationType: API_KEY
+      AuthenticationType: AMAZON_COGNITO_USER_POOLS
       Name: Eclipse-simulator-api
       LogConfig:
         CloudWatchLogsRoleArn:
@@ -18,6 +13,11 @@ Resources:
           - EclipseSimulatorServiceRole
           - Arn
         FieldLogLevel: ALL
+      UserPoolConfig:
+        UserPoolId:
+          Ref: EclipseSimulatorCognitoUserPool
+        AwsRegion: eu-west-2
+        DefaultAction: DENY
     Metadata:
       SamResourceId: EclipseSimulatorApi
   EclipseSimulatorApiSchema:
@@ -27,7 +27,7 @@ Resources:
         Fn::GetAtt:
         - EclipseSimulatorApi
         - ApiId
-      DefinitionS3Location: s3://test-eclipse-simulator-bucket-2/sam/eclipse-simulator-deploy/1.0-SNAPSHOT/0eb34553b3b02627d05641444222b363
+      DefinitionS3Location: s3://test-eclipse-simulator-bucket-2/sam/eclipse-simulator-deploy/1.0-SNAPSHOT/7106a7dd6be8106f44c9a6089de4b0bc
     Metadata:
       SamResourceId: EclipseSimulatorApiSchema
   SimulationLambdaDataSource:
@@ -55,7 +55,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Description: Hello world function
-      CodeUri: s3://test-eclipse-simulator-bucket-2/sam/eclipse-simulator-deploy/1.0-SNAPSHOT/19ad78b467a105bd5aadb01cd02f8398
+      CodeUri: s3://test-eclipse-simulator-bucket-2/sam/eclipse-simulator-deploy/1.0-SNAPSHOT/beffbba914325da75cd6bf0cb5702942
       Handler: pwr.api.handler.SimulationHandler::handleRequest
       Runtime: java11
       Timeout: 20
@@ -102,8 +102,8 @@ Resources:
         - SimulationLambdaDataSource
         - Name
       RequestMappingTemplate: "{\n    \"version\": \"2017-02-28\",\n    \"operation\"\
-        : \"Invoke\",\n    \"payload\": {\n        \"firstPlayerFleet\": $util.toJson($ctx.stash.args.firstPlayerFleet),\n\
-        \        \"secondPlayerFleet\": $util.toJson($ctx.stash.args.secondPlayerFleet),\n\
+        : \"Invoke\",\n    \"payload\": {\n        \"attackingPlayerFleet\": $util.toJson($ctx.stash.args.attackingPlayerFleet),\n\
+        \        \"defendingPlayerFleet\": $util.toJson($ctx.stash.args.defendingPlayerFleet),\n\
         \        \"repetitions\": $util.toJson($ctx.stash.args.repetitions)\n    }\n\
         }\n"
       ResponseMappingTemplate: "#foreach($error in $ctx.result.errors)\n  $util.appendError(\"\
@@ -148,3 +148,120 @@ Resources:
           - '*'
     Metadata:
       SamResourceId: EclipseSimulatorLogsPolicy
+  EclipseSimulatorCognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UsernameConfiguration:
+        CaseSensitive: false
+      UserPoolName: eclipse-simulator-user-pool
+    Metadata:
+      SamResourceId: EclipseSimulatorCognitoUserPool
+  EclipseSimulatorUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId:
+        Ref: EclipseSimulatorCognitoUserPool
+      AllowedOAuthFlowsUserPoolClient: true
+      CallbackURLs:
+      - http://localhost:3000
+      AllowedOAuthFlows:
+      - code
+      - implicit
+      AllowedOAuthScopes:
+      - phone
+      - email
+      - openid
+      - profile
+      SupportedIdentityProviders:
+      - COGNITO
+      ExplicitAuthFlows:
+      - ALLOW_USER_PASSWORD_AUTH
+      - ALLOW_REFRESH_TOKEN_AUTH
+    Metadata:
+      SamResourceId: EclipseSimulatorUserPoolClient
+  EclipseSimulatorUserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: eclipse-simulator-auth
+      UserPoolId:
+        Ref: EclipseSimulatorCognitoUserPool
+    Metadata:
+      SamResourceId: EclipseSimulatorUserPoolDomain
+  EclipseSimulatorAdminUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: ADMIN
+      UserPoolId:
+        Ref: EclipseSimulatorCognitoUserPool
+    Metadata:
+      SamResourceId: EclipseSimulatorAdminUserGroup
+  EclipseSimulatorCommonUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: USER
+      UserPoolId:
+        Ref: EclipseSimulatorCognitoUserPool
+    Metadata:
+      SamResourceId: EclipseSimulatorCommonUserGroup
+  EclipseSimulatorDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      TableName: Simulations
+      AttributeDefinitions:
+      - AttributeName: attacking_fleet_hash
+        AttributeType: S
+      - AttributeName: defending_fleet_hash
+        AttributeType: S
+      KeySchema:
+      - AttributeName: attacking_fleet_hash
+        KeyType: HASH
+      - AttributeName: defending_fleet_hash
+        KeyType: RANGE
+    Metadata:
+      SamResourceId: EclipseSimulatorDynamoDBTable
+  EclipseSimulatorDynamoDBPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: EclipseSimulatorDynamoDBPolicy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action: dynamodb:Query
+          Resource:
+            Fn::GetAtt:
+            - EclipseSimulatorDynamoDBTable
+            - Arn
+        - Effect: Allow
+          Action: dynamodb:PutItem
+          Resource:
+            Fn::GetAtt:
+            - EclipseSimulatorDynamoDBTable
+            - Arn
+        - Effect: Allow
+          Action: dynamodb:UpdateItem
+          Resource:
+            Fn::GetAtt:
+            - EclipseSimulatorDynamoDBTable
+            - Arn
+      Roles:
+      - Ref: EclipseSimulatorDynamoDBRole
+    Metadata:
+      SamResourceId: EclipseSimulatorDynamoDBPolicy
+  EclipseSimulatorDynamoDBRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - dynamodb.amazonaws.com
+          Action:
+          - sts:AssumeRole
+    Metadata:
+      SamResourceId: EclipseSimulatorDynamoDBRole

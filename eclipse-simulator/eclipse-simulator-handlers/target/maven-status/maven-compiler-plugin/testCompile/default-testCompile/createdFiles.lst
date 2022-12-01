@@ -1,3 +1,6 @@
-pwr\api\handler\LambdaMockContext.class
-pwr\api\handler\LambdaMockContext$TestLogger.class
+pwr\api\dto\FleetDTOIntegrationTest.class
+pwr\api\dynamodb\DynamoDBClientIntegrationTest.class
+pwr\api\handler\CognitoClientIntegrationTest.class
+pwr\api\handler\helpers\LambdaMockContext$TestLogger.class
+pwr\api\handler\helpers\LambdaMockContext.class
 pwr\api\handler\SimulationHandlerIntegrationTest.class

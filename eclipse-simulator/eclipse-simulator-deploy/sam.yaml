@@ -2,22 +2,20 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Eclipse-Simulator
 
-Parameters:
-  Repository:
-    Type: String
-    Description: URL of the GitHub repo where the stack is located
-    Default: https://github.com/eclipse-simulator/eclipse-simulator
-
 Resources:
 
   EclipseSimulatorApi:
     Type: AWS::AppSync::GraphQLApi
     Properties:
-      AuthenticationType: API_KEY
+      AuthenticationType: AMAZON_COGNITO_USER_POOLS
       Name: 'Eclipse-simulator-api'
       LogConfig:
         CloudWatchLogsRoleArn: !GetAtt EclipseSimulatorServiceRole.Arn
         FieldLogLevel: 'ALL'
+      UserPoolConfig:
+        UserPoolId: !Ref EclipseSimulatorCognitoUserPool
+        AwsRegion: eu-west-2
+        DefaultAction: DENY
 
   EclipseSimulatorApiSchema:
     Type: AWS::AppSync::GraphQLSchema
@@ -78,8 +76,8 @@ Resources:
             "version": "2017-02-28",
             "operation": "Invoke",
             "payload": {
-                "firstPlayerFleet": $util.toJson($ctx.stash.args.firstPlayerFleet),
-                "secondPlayerFleet": $util.toJson($ctx.stash.args.secondPlayerFleet),
+                "attackingPlayerFleet": $util.toJson($ctx.stash.args.attackingPlayerFleet),
+                "defendingPlayerFleet": $util.toJson($ctx.stash.args.defendingPlayerFleet),
                 "repetitions": $util.toJson($ctx.stash.args.repetitions)
             }
         }
@@ -125,3 +123,99 @@ Resources:
               - 'logs:PutLogEvents'
             Resource:
               - '*'
+
+  EclipseSimulatorCognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UsernameConfiguration:
+        CaseSensitive: false
+      UserPoolName: 'eclipse-simulator-user-pool'
+
+  EclipseSimulatorUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref EclipseSimulatorCognitoUserPool
+      AllowedOAuthFlowsUserPoolClient: true
+      CallbackURLs:
+        - http://localhost:3000
+      AllowedOAuthFlows:
+        - code
+        - implicit
+      AllowedOAuthScopes:
+        - phone
+        - email
+        - openid
+        - profile
+      SupportedIdentityProviders:
+        - COGNITO
+      ExplicitAuthFlows:
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+
+  EclipseSimulatorUserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: 'eclipse-simulator-auth'
+      UserPoolId: !Ref EclipseSimulatorCognitoUserPool
+
+  EclipseSimulatorAdminUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: ADMIN
+      UserPoolId: !Ref EclipseSimulatorCognitoUserPool
+
+  EclipseSimulatorCommonUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: USER
+      UserPoolId: !Ref EclipseSimulatorCognitoUserPool
+
+  EclipseSimulatorDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      TableName: Simulations
+      AttributeDefinitions:
+        - AttributeName: "attacking_fleet_hash"
+          AttributeType: "S"
+        - AttributeName: "defending_fleet_hash"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "attacking_fleet_hash"
+          KeyType: "HASH"
+        - AttributeName: "defending_fleet_hash"
+          KeyType: "RANGE"
+
+  EclipseSimulatorDynamoDBPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: EclipseSimulatorDynamoDBPolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action: "dynamodb:Query"
+            Resource: !GetAtt EclipseSimulatorDynamoDBTable.Arn
+          - Effect: "Allow"
+            Action: "dynamodb:PutItem"
+            Resource: !GetAtt EclipseSimulatorDynamoDBTable.Arn
+          - Effect: "Allow"
+            Action: "dynamodb:UpdateItem"
+            Resource: !GetAtt EclipseSimulatorDynamoDBTable.Arn
+      Roles:
+        - !Ref EclipseSimulatorDynamoDBRole
+
+  EclipseSimulatorDynamoDBRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -   Effect: Allow
+              Principal:
+                Service:
+                  - dynamodb.amazonaws.com
+              Action:
+                - sts:AssumeRole

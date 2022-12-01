@@ -7,122 +7,123 @@ import java.util.*;
 
 public class Simulation
 {
-    public SimulationResult simulateFight(List<Ship> firstPlayerFleet, List<Ship> secondPlayerFleet, int repetitions)
+    public SimulationResult simulateFight(List<Ship> attackingPlayerFleet, List<Ship> defendingPlayerFleet, int repetitions)
     {
         float playerOnesWins = 0;
 
-        List<Ship> firstPlayerJunkyard = new ArrayList<>();
-        List<Ship> secondPlayerJunkyard = new ArrayList<>();
+        List<Ship> attackingPlayerJunkyard = new ArrayList<>();
+        List<Ship> defendingPlayerJunkyard = new ArrayList<>();
 
         for(int i = 0; i < repetitions; i++)
         {
-            prepareFleets(firstPlayerFleet, secondPlayerFleet, firstPlayerJunkyard, secondPlayerJunkyard);
+            prepareFleets(attackingPlayerFleet, defendingPlayerFleet, attackingPlayerJunkyard, defendingPlayerJunkyard);
 
-            assignMissileHits(firstPlayerFleet, secondPlayerFleet, firstPlayerJunkyard, secondPlayerJunkyard);
+            assignMissileHits(attackingPlayerFleet, defendingPlayerFleet, attackingPlayerJunkyard, defendingPlayerJunkyard);
 
-            int maxInitiative = findBiggestInitiative(firstPlayerFleet, secondPlayerFleet);
+            int maxInitiative = findBiggestInitiative(attackingPlayerFleet, defendingPlayerFleet);
             int initiative = maxInitiative;
 
-            while(!firstPlayerFleet.isEmpty() && !secondPlayerFleet.isEmpty())
+            while(!attackingPlayerFleet.isEmpty() && !defendingPlayerFleet.isEmpty())
             {
                 if(initiative < 0)
                 {
                     initiative = maxInitiative;
                 }
 
-                List<Roll> firstPlayerCannonHits = new ArrayList<>();
-                List<Roll> secondPlayerCannonHits = new ArrayList<>();
+                List<Roll> attackingPlayerCannonHits = new ArrayList<>();
+                List<Roll> defendingPlayerCannonHits = new ArrayList<>();
 
-                for(Ship ship: firstPlayerFleet)
+                for(Ship ship: attackingPlayerFleet)
                 {
                     if(ship.getInitiative() == initiative)
                     {
-                        firstPlayerCannonHits.addAll(ship.calculateCannonHits());
+                        attackingPlayerCannonHits.addAll(ship.calculateCannonHits());
                     }
                 }
 
-                for(Ship ship: secondPlayerFleet)
+                for(Ship ship: defendingPlayerFleet)
                 {
                     if(ship.getInitiative() == initiative)
                     {
-                        secondPlayerCannonHits.addAll(ship.calculateCannonHits());
+                        defendingPlayerCannonHits.addAll(ship.calculateCannonHits());
                     }
                 }
 
-                assignHits(firstPlayerFleet, secondPlayerCannonHits, firstPlayerJunkyard);
-                assignHits(secondPlayerFleet, firstPlayerCannonHits, secondPlayerJunkyard);
+                assignHits(attackingPlayerFleet, defendingPlayerCannonHits, attackingPlayerJunkyard);
+                assignHits(defendingPlayerFleet, attackingPlayerCannonHits, defendingPlayerJunkyard);
 
                 initiative--;
             }
 
-            if(secondPlayerFleet.isEmpty())
+            if(defendingPlayerFleet.isEmpty())
             {
                 playerOnesWins++;
             }
         }
 
-        float firstPlayerWinRate = (playerOnesWins / repetitions) * 100;
-        float secondPlayerWinRate = ((repetitions - playerOnesWins) / repetitions) * 100;
+        float attackingPlayerWinRate = (playerOnesWins / repetitions) * 100;
+        float defendingPlayerWinRate = ((repetitions - playerOnesWins) / repetitions) * 100;
 
-        return new SimulationResult(firstPlayerWinRate, secondPlayerWinRate);
+        return new SimulationResult(attackingPlayerWinRate, defendingPlayerWinRate);
     }
 
-    private void restartFleets(List<Ship> firstPlayerFleet, List<Ship> secondPlayerFleet,
-                               List<Ship> firstPlayerJunkyard, List<Ship> secondPlayerJunkyard)
+    private void restartFleets(List<Ship> attackingPlayerFleet, List<Ship> defendingPlayerFleet,
+                               List<Ship> attackingPlayerJunkyard, List<Ship> defendingPlayerJunkyard)
     {
-        firstPlayerFleet.addAll(firstPlayerJunkyard);
-        secondPlayerFleet.addAll(secondPlayerJunkyard);
+        attackingPlayerFleet.addAll(attackingPlayerJunkyard);
+        defendingPlayerFleet.addAll(defendingPlayerJunkyard);
 
-        firstPlayerJunkyard.clear();
-        secondPlayerJunkyard.clear();
+        attackingPlayerJunkyard.clear();
+        defendingPlayerJunkyard.clear();
 
-        firstPlayerFleet.forEach(ship -> ship.setDead(false));
-        secondPlayerFleet.forEach(ship -> ship.setDead(false));
+        attackingPlayerFleet.forEach(ship -> ship.setDead(false));
+        defendingPlayerFleet.forEach(ship -> ship.setDead(false));
     }
 
-    private void prepareFleets(List<Ship> firstPlayerFleet, List<Ship> secondPlayerFleet,
-                               List<Ship> firstPlayerJunkyard, List<Ship> secondPlayerJunkyard)
+    private void prepareFleets(List<Ship> attackingPlayerFleet, List<Ship> defendingPlayerFleet,
+                               List<Ship> attackingPlayerJunkyard, List<Ship> defendingPlayerJunkyard)
+
     {
-        restartFleets(firstPlayerFleet, secondPlayerFleet, firstPlayerJunkyard, secondPlayerJunkyard);
+        restartFleets(attackingPlayerFleet, defendingPlayerFleet, attackingPlayerJunkyard, defendingPlayerJunkyard);
 
-        firstPlayerFleet.sort(Comparator.comparing(Ship::getShipType));
-        secondPlayerFleet.sort(Comparator.comparing(Ship::getShipType));
+        attackingPlayerFleet.sort(Comparator.comparing(Ship::getShipType));
+        defendingPlayerFleet.sort(Comparator.comparing(Ship::getShipType));
 
-        firstPlayerFleet.forEach(Ship::calculateStats);
-        secondPlayerFleet.forEach(Ship::calculateStats);
+        attackingPlayerFleet.forEach(Ship::calculateStats);
+        defendingPlayerFleet.forEach(Ship::calculateStats);
     }
 
-    private void assignMissileHits(List<Ship> firstPlayerFleet, List<Ship> secondPlayerFleet,
-                                   List<Ship> firstPlayerJunkyard, List<Ship> secondPlayerJunkyard)
+    private void assignMissileHits(List<Ship> attackingPlayerFleet, List<Ship> defendingPlayerFleet,
+                                   List<Ship> attackingPlayerJunkyard, List<Ship> defendingPlayerJunkyard)
     {
-        List<Roll> firstPlayerMissileHits = new ArrayList<>();
-        List<Roll> secondPlayerMissileHits = new ArrayList<>();
+        List<Roll> attackingPlayerMissileHits = new ArrayList<>();
+        List<Roll> defendingPlayerMissileHits = new ArrayList<>();
 
-        for(Ship ship: firstPlayerFleet)
+        for(Ship ship: attackingPlayerFleet)
         {
-            firstPlayerMissileHits.addAll(ship.calculateMissileHits());
+            attackingPlayerMissileHits.addAll(ship.calculateMissileHits());
         }
 
-        for(Ship ship: secondPlayerFleet)
+        for(Ship ship: defendingPlayerFleet)
         {
-            secondPlayerMissileHits.addAll(ship.calculateMissileHits());
+            defendingPlayerMissileHits.addAll(ship.calculateMissileHits());
         }
 
-        assignHits(firstPlayerFleet, secondPlayerMissileHits, firstPlayerJunkyard);
-        assignHits(secondPlayerFleet, firstPlayerMissileHits, secondPlayerJunkyard);
+        assignHits(attackingPlayerFleet, defendingPlayerMissileHits, attackingPlayerJunkyard);
+        assignHits(defendingPlayerFleet, attackingPlayerMissileHits, defendingPlayerJunkyard);
     }
 
-    private int findBiggestInitiative(List<Ship> firstPlayerFleet, List<Ship> secondPlayerFleet)
+    private int findBiggestInitiative(List<Ship> attackingPlayerFleet, List<Ship> defendingPlayerFleet)
     {
         int initiative = 0;
 
-        for (Ship ship : firstPlayerFleet) {
+        for (Ship ship : attackingPlayerFleet) {
             if (ship.getInitiative() > initiative) {
                 initiative = ship.getInitiative();
             }
         }
 
-        for (Ship ship : secondPlayerFleet) {
+        for (Ship ship : defendingPlayerFleet) {
             if (ship.getInitiative() > initiative) {
                 initiative = ship.getInitiative();
             }
@@ -146,10 +147,5 @@ public class Simulation
             fleet.stream().filter(Ship::isDead).forEach(junkyard::add);
             fleet.removeIf(Ship::isDead);
         }
-    }
-
-    private void assignHitsStrongestShipsFirst()
-    {
-
     }
 }
