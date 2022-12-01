@@ -8,6 +8,7 @@ pwr\api\handler\SimulationHandler.class
 pwr\api\request\SimulationRequestData.class
 pwr\api\entity\upgrade\Computer3.class
 pwr\api\enums\FieldName$8.class
+pwr\api\constants\Constants$dynamo.class
 pwr\api\enums\FieldName.class
 pwr\api\entity\upgrade\Shield1.class
 pwr\api\handler\BaseHandler.class

@@ -1,6 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Eclipse-Simulator
+Parameters:
+  OIDCProviderArn:
+    Description: Arn for the GitHub OIDC Provider.
+    Default: ''
+    Type: String
+Conditions:
+  CreateOIDCProvider:
+    Fn::Equals:
+    - Ref: OIDCProviderArn
+    - ''
 Resources:
   EclipseSimulatorApi:
     Type: AWS::AppSync::GraphQLApi
@@ -55,7 +65,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Description: Hello world function
-      CodeUri: s3://test-eclipse-simulator-bucket-2/sam/eclipse-simulator-deploy/1.0-SNAPSHOT/beffbba914325da75cd6bf0cb5702942
+      CodeUri: s3://test-eclipse-simulator-bucket-2/sam/eclipse-simulator-deploy/1.0-SNAPSHOT/9dd3b38e028245ef4aaeb368653bbd26
       Handler: pwr.api.handler.SimulationHandler::handleRequest
       Runtime: java11
       Timeout: 20
@@ -265,3 +275,33 @@ Resources:
           - sts:AssumeRole
     Metadata:
       SamResourceId: EclipseSimulatorDynamoDBRole
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Action: sts:AssumeRoleWithWebIdentity
+          Principal:
+            Federated:
+              Fn::If:
+              - CreateOIDCProvider
+              - Ref: GithubOidc
+              - Ref: OIDCProviderArn
+          Condition:
+            StringLike:
+              token.actions.githubusercontent.com:sub:
+                Fn::Sub: repo:eclipse-simulator:*
+    Metadata:
+      SamResourceId: Role
+  GithubOidc:
+    Type: AWS::IAM::OIDCProvider
+    Condition: CreateOIDCProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList:
+      - sts.amazonaws.com
+      ThumbprintList:
+      - 6938fd4d98bab03faadb97b34396831e3780aea1
+    Metadata:
+      SamResourceId: GithubOidc
