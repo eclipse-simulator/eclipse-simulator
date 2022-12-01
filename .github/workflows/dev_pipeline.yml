@@ -8,7 +8,7 @@ on:
       - feature/ES-3
 
 env:
-  AWS_ROLE_TO_ASSUME: 'todo'
+  AWS_ROLE_TO_ASSUME: 'arn:aws:iam::349872647055:role/eclipse-simulator-Role-LSYAAWRG9QC'
   AWS_SESSION_NAME: 'EclipseSimulatorApiGithubSession'
   AWS_ENV: dev
   AWS_REGION: us-east-1
