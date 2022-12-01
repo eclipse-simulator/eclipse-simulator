@@ -1,0 +1,115 @@
+name: DEV Build and Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - feature/ES-3
+
+env:
+  AWS_ROLE_TO_ASSUME: 'todo'
+  AWS_SESSION_NAME: 'EclipseSimulatorApiGithubSession'
+  AWS_ENV: dev
+  AWS_REGION: us-east-1
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build-and-test:
+    name: build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'corretto'
+          cache: 'maven'
+
+      - name: Setup Maven
+        uses: whelk-io/maven-settings-xml-action@v20
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
+          role-session-name: ${{ env.AWS_SESSION_NAME }}
+
+      - name: Validate SAM File
+        run: aws cloudformation validate-template --template-body file://sam.yaml
+
+      - name: Run tests and Build Lambdas
+        run: mvn verify --batch-mode
+
+      - name: Upload sam.yaml
+        uses: actions/upload-artifact@v3
+        with:
+          name: sam.yaml
+          path: sam.yaml
+
+      - name: Upload samconfig.toml
+        uses: actions/upload-artifact@v3
+        with:
+          name: samconfig.toml
+          path: samconfig.toml
+
+      - name: Upload lambdas
+        uses: actions/upload-artifact@v3
+        with:
+          name: lambdas
+          path: |
+            **/target/lambda.jar
+            **/pom.xml
+
+  deploy:
+    name: Deploy to AWS
+    needs: [build-and-test]
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: Download lambdas
+        uses: actions/download-artifact@v2
+        with:
+          name: lambdas
+
+      - name: Download sam.yaml
+        uses: actions/download-artifact@v2
+        with:
+          name: sam.yaml
+
+      - name: Download samconfig.toml
+        uses: actions/download-artifact@v2
+        with:
+          name: samconfig.toml
+
+      - name: Create target folder
+        run: mkdir -p target
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
+          role-session-name: ${{ env.AWS_SESSION_NAME }}
+
+      - name: Configure AWS profile
+        run: |
+          aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }} --profile ${{ env.AWS_ENV }}
+          aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }} --profile ${{ env.AWS_ENV }}
+          aws configure set aws_session_token ${{ env.AWS_SESSION_TOKEN }} --profile ${{ env.AWS_ENV }}
+
+      - name: Package SAM
+        run: sam package --config-env ${{env.AWS_ENV}}
+
+      - name: Deploy API
+        run: sam deploy --config-env ${{env.AWS_ENV}}
