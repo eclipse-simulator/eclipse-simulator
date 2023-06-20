@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.model.PutItemResult;
 import org.junit.jupiter.api.Test;
 import pwr.api.dto.FleetDTO;
 import pwr.api.dto.ShipDTO;
+import pwr.api.simulation.SimulationResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,9 @@ public class DynamoDBClientIntegrationTest
 
         DynamoDBClient client = new DynamoDBClient();
 
-        PutItemResult putResult = client.updateItem(attackingPlayerFleet, defendingPlayerFleet, ATTACKING_PLAYER_WIN_RATE,
-                DEFENDING_PLAYER_WIN_RATE);
+        SimulationResult simulationResult = new SimulationResult(ATTACKING_PLAYER_WIN_RATE, DEFENDING_PLAYER_WIN_RATE);
+
+        PutItemResult putResult = client.updateItem(attackingPlayerFleet, defendingPlayerFleet, simulationResult);
         assertEquals(HTTP_OK_STATUS, putResult.getSdkHttpMetadata().getHttpStatusCode());
 
         GetItemResult result = client.getItem(attackingPlayerFleet, defendingPlayerFleet);

@@ -18,7 +18,7 @@ public abstract class Field
     public Field()
     {
         initiative = 0;
-        hp = 10;
+        hp = 0;
         hitChanceBuff = 0;
         hitChanceDeBuff = 0;
         energy = 0;

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pwr.api.dto.FleetDTO;
 import pwr.api.dto.ShipDTO;
-import pwr.api.exception.BaseException;
+import pwr.api.exception.ESApiException;
 import pwr.api.handler.helpers.LambdaMockContext;
 import pwr.api.request.SimulationRequestData;
 import pwr.api.response.BaseResponseData;
@@ -91,8 +91,8 @@ public class SimulationHandlerIntegrationTest
 
         BaseResponseData<SimulationResponseData> response = handler.handleRequest(requestData, context);
 
-        List<? super BaseException> errors = response.getErrors();
+        List<? super ESApiException> errors = response.getErrors();
         assertNotEquals(0, errors.size());
-        assertEquals(FLEET_CANT_BE_EMPTY, ((BaseException) errors.get(0)).getMessage());
+        assertEquals(FLEET_CANT_BE_EMPTY, ((ESApiException) errors.get(0)).getMessage());
     }
 }

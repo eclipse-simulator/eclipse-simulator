@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import pwr.api.exception.BaseException;
+import pwr.api.exception.ESApiException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,5 +16,5 @@ import java.util.List;
 public class BaseResponseData<R>
 {
     R response;
-    private List<? super BaseException> errors = new ArrayList<>();
+    private List<? super ESApiException> errors = new ArrayList<>();
 }

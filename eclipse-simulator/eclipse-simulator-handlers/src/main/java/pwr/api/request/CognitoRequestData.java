@@ -12,7 +12,6 @@ import pwr.api.enums.CognitoOperationType;
 @EqualsAndHashCode(callSuper = true)
 public class CognitoRequestData extends BaseRequestData
 {
-    CognitoOperationType operationType;
-    String userName;
-    String password;
+    private CognitoOperationType operationType;
+    private CredentialsData credentials;
 }

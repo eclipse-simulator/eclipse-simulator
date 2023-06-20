@@ -5,8 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17324040-5ba5-4b4e-85c4-d02617fc7e77" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/dev_pipeline.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/api.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-deploy/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/sam.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-deploy/sam.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-deploy/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-deploy/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-deploy/target/packaged.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-deploy/target/packaged.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/cognito/CognitoClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/cognito/CognitoClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/constants/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/constants/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/dto/FleetDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/dto/FleetDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/dynamodb/DynamoDBClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/dynamodb/DynamoDBClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Cruiser.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Cruiser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Dreadnought.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Dreadnought.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Interceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/ship/Interceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/entity/upgrade/Field.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/enums/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/enums/ErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/exception/BaseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/exception/ESApiException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/handler/BaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/handler/BaseHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/handler/CognitoHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/handler/CognitoHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/handler/SimulationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/handler/SimulationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/request/CognitoRequestData.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/request/CognitoRequestData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/response/BaseResponseData.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/response/BaseResponseData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/statistics/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/statistics/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/statistics/Round.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/statistics/Round.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/utils/JsonMapperUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/utils/JsonMapperUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/dynamodb/DynamoDBClientIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/dynamodb/DynamoDBClientIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/CognitoClientIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/CognitoHandlerIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/SimulationHandlerIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/SimulationHandlerIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eclipse-simulator-handlers/target/surefire-reports/TEST-pwr.api.handler.SimulationHandlerIntegrationTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eclipse-simulator-handlers/target/surefire-reports/TEST-pwr.api.handler.SimulationHandlerIntegrationTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +50,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -41,13 +75,16 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-11&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="pwr.api" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="pwr.api.handler" />
       <recent name="pwr.api.response" />
@@ -55,81 +92,81 @@
       <recent name="pwr.api.entity.upgrade" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DynamoDBClientIntegrationTest.getItemShouldReturnNull">
-    <configuration name="DynamoDBClientIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.RDSClientIntegrationTest.shouldInsertTwoGames">
+    <configuration name="FeatureFlagsHandlerIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="eclipse-simulator-handlers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pwr.api.dynamodb.*" />
+          <option name="PATTERN" value="pwr.api.handler.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pwr.api.dynamodb" />
-      <option name="MAIN_CLASS_NAME" value="pwr.api.dynamodb.DynamoDBClientIntegrationTest" />
+      <option name="PACKAGE_NAME" value="pwr.api.handler" />
+      <option name="MAIN_CLASS_NAME" value="pwr.api.handler.FeatureFlagsHandlerIntegrationTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DynamoDBClientIntegrationTest.getItemShouldReturnNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="FeatureFlagsHandlerIntegrationTest.shouldGetAllFlags" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="eclipse-simulator-handlers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pwr.api.dynamodb.*" />
+          <option name="PATTERN" value="pwr.api.handler.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pwr.api.dynamodb" />
-      <option name="MAIN_CLASS_NAME" value="pwr.api.dynamodb.DynamoDBClientIntegrationTest" />
-      <option name="METHOD_NAME" value="getItemShouldReturnNull" />
+      <option name="PACKAGE_NAME" value="pwr.api.handler" />
+      <option name="MAIN_CLASS_NAME" value="pwr.api.handler.FeatureFlagsHandlerIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldGetAllFlags" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DynamoDBClientIntegrationTest.shouldGetItemSuccessfully" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RDSClientIntegrationTest.shouldCreateDatabase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="eclipse-simulator-handlers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pwr.api.dynamodb.*" />
+          <option name="PATTERN" value="pwr.api.rds.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pwr.api.dynamodb" />
-      <option name="MAIN_CLASS_NAME" value="pwr.api.dynamodb.DynamoDBClientIntegrationTest" />
-      <option name="METHOD_NAME" value="shouldGetItemSuccessfully" />
+      <option name="PACKAGE_NAME" value="pwr.api.rds" />
+      <option name="MAIN_CLASS_NAME" value="pwr.api.rds.RDSClientIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldCreateDatabase" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DynamoDBClientIntegrationTest.shouldPutItemSuccessfully" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RDSClientIntegrationTest.shouldDeleteAllTables" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="eclipse-simulator-handlers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pwr.api.dynamodb.*" />
+          <option name="PATTERN" value="pwr.api.rds.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pwr.api.dynamodb" />
-      <option name="MAIN_CLASS_NAME" value="pwr.api.dynamodb.DynamoDBClientIntegrationTest" />
-      <option name="METHOD_NAME" value="shouldPutItemSuccessfully" />
+      <option name="PACKAGE_NAME" value="pwr.api.rds" />
+      <option name="MAIN_CLASS_NAME" value="pwr.api.rds.RDSClientIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldDeleteAllTables" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DynamoDBClientIntegrationTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RDSClientIntegrationTest.shouldInsertTwoGames" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="eclipse-simulator-handlers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pwr.api.dynamodb.*" />
+          <option name="PATTERN" value="pwr.api.rds.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pwr.api.dynamodb" />
-      <option name="MAIN_CLASS_NAME" value="pwr.api.dynamodb.DynamoDBClientIntegrationTest" />
-      <option name="METHOD_NAME" value="test" />
+      <option name="PACKAGE_NAME" value="pwr.api.rds" />
+      <option name="MAIN_CLASS_NAME" value="pwr.api.rds.RDSClientIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldInsertTwoGames" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -137,11 +174,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DynamoDBClientIntegrationTest.getItemShouldReturnNull" />
-        <item itemvalue="JUnit.DynamoDBClientIntegrationTest.test" />
-        <item itemvalue="JUnit.DynamoDBClientIntegrationTest" />
-        <item itemvalue="JUnit.DynamoDBClientIntegrationTest.shouldGetItemSuccessfully" />
-        <item itemvalue="JUnit.DynamoDBClientIntegrationTest.shouldPutItemSuccessfully" />
+        <item itemvalue="JUnit.RDSClientIntegrationTest.shouldInsertTwoGames" />
+        <item itemvalue="JUnit.RDSClientIntegrationTest.shouldCreateDatabase" />
+        <item itemvalue="JUnit.RDSClientIntegrationTest.shouldDeleteAllTables" />
+        <item itemvalue="JUnit.FeatureFlagsHandlerIntegrationTest.shouldGetAllFlags" />
+        <item itemvalue="JUnit.FeatureFlagsHandlerIntegrationTest" />
       </list>
     </recent_temporary>
   </component>
@@ -171,13 +208,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/SimulationHandlerIntegrationTest.java</url>
-          <line>78</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/cognito/CognitoClient.java</url>
-          <line>86</line>
+          <line>82</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -187,35 +219,109 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/dynamodb/DynamoDBClient.java</url>
-          <line>54</line>
+          <line>61</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/dynamodb/DynamoDBClientIntegrationTest.java</url>
-          <line>38</line>
+          <line>40</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/dynamodb/DynamoDBClientIntegrationTest.java</url>
-          <line>101</line>
+          <line>103</line>
           <option name="timeStamp" value="43" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/FeatureFlagsHandlerIntegrationTest.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/FeatureFlagsHandlerIntegrationTest.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/CognitoHandlerIntegrationTest.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/feature/flags/FeatureFlagsHelper.java</url>
+          <line>184</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/rds/RDSClient.java</url>
+          <line>224</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/rds/RDSClientIntegrationTest.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="75" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/rds/RDSClientIntegrationTest.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="87" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/rds/RDSClient.java</url>
+          <line>489</line>
+          <option name="timeStamp" value="91" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/CognitoClientIntegrationTest.java</url>
-          <line>74</line>
-          <properties class="pwr.api.handler.CognitoClientIntegrationTest" method="shouldThrowAnExceptionWhenWrongPasswordIsUsed">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/test/java/pwr/api/handler/CognitoHandlerIntegrationTest.java</url>
+          <line>80</line>
+          <properties class="pwr.api.handler.CognitoHandlerIntegrationTest">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/feature/flags/FeatureFlagsHelper.java</url>
+          <line>102</line>
+          <properties class="pwr.api.feature.flags.FeatureFlagsHelper" method="getDeploymentStrategyId">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/feature/flags/FeatureFlagsHelper.java</url>
+          <line>123</line>
+          <properties class="pwr.api.feature.flags.FeatureFlagsHelper" method="getLatestVersionNumber">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/eclipse-simulator-handlers/src/main/java/pwr/api/feature/flags/FeatureFlagsHelper.java</url>
+          <line>74</line>
+          <properties class="pwr.api.feature.flags.FeatureFlagsHelper" method="getAllFeatureFlags">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.postgresql.jdbc.PgPreparedStatement" memberName="preparedQuery" />
+      </pinned-members>
+    </pin-to-top-manager>
     <watches-manager>
       <configuration name="JUnit">
         <watch expression="firstPlayersShips" />
         <watch expression="firstPlayersShips.get(5)" />
         <watch expression="firstPlayersShips.get(5)" />
+        <watch expression="preparedStatement" />
+        <watch expression="savedGame.rounds.get(1)" />
       </configuration>
     </watches-manager>
   </component>

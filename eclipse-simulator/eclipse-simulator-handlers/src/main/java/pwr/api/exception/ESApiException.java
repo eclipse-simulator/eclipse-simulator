@@ -7,20 +7,20 @@ import pwr.api.enums.ExceptionType;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class BaseException extends RuntimeException
+public class ESApiException extends RuntimeException
 {
     public ExceptionType exceptionType;
 
     public ErrorCode errorCode;
 
-    public BaseException(ExceptionType exceptionType, ErrorCode errorCode)
+    public ESApiException(ExceptionType exceptionType, ErrorCode errorCode)
     {
         super(errorCode.getDefaultMessage());
         this.exceptionType = exceptionType;
         this.errorCode = errorCode;
     }
 
-    public BaseException(ExceptionType exceptionType, String message, ErrorCode errorCode)
+    public ESApiException(ExceptionType exceptionType, String message, ErrorCode errorCode)
     {
         super(message);
         this.exceptionType = exceptionType;

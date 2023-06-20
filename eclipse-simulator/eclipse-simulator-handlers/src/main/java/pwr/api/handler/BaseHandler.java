@@ -2,7 +2,7 @@ package pwr.api.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import pwr.api.exception.BaseException;
+import pwr.api.exception.ESApiException;
 import pwr.api.response.BaseResponseData;
 
 import java.lang.reflect.ParameterizedType;
@@ -34,13 +34,18 @@ public abstract class BaseHandler<R, O> implements RequestHandler<Object, BaseRe
     public BaseResponseData<O> handleRequest(Object requestObject, Context context)
     {
         this.init();
+
         final R request = convertToObject(requestObject, requestType);
+
+        System.out.println(request);
+
         BaseResponseData<O> response = new BaseResponseData<>();
+
         try
         {
             response.setResponse(processRequest(request));
             return response;
-        } catch (BaseException e)
+        } catch (ESApiException e)
         {
             System.err.println(e.getMessage());
             response.getErrors().add(e);
@@ -49,7 +54,7 @@ public abstract class BaseHandler<R, O> implements RequestHandler<Object, BaseRe
         {
             System.err.println(e.getMessage());
             response.getErrors()
-                    .add(new BaseException(ERROR, e.getMessage(), INTERNAL_SERVER_ERROR));
+                    .add(new ESApiException(ERROR, e.getMessage(), INTERNAL_SERVER_ERROR));
             return response;
         }
     }

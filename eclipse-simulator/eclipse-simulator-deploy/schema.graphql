@@ -7,18 +7,133 @@ input FleetInput {
     ships:[ShipInput]
 }
 
+input FeatureFlagsInput {
+    registering:Boolean!
+}
+
+input CognitoInput {
+    username:String
+    password:String
+}
+
+input PlayerInput {
+    id:Int
+    name:String
+}
+
+input MoveInput {
+    id:Int
+    roundId:Int
+    playerId:Int
+    moveNumber:Int
+    action:String
+}
+
+input FightInput {
+    id:Int
+    gameId:Int
+    roundId:Int
+    attackingPlayer:String
+    defendingPlayer:String
+    winner:String
+}
+
+input RoundInput {
+    id:Int
+    gameId:Int
+    roundNumber:Int
+    moves:[MoveInput]
+    fights:[FightInput]
+}
+
+input GameInput {
+    id:Int
+    name:String
+    date:String
+    players:[PlayerInput]
+    rounds:[RoundInput]
+    winner:String
+}
+
 type SimulationResult {
     attackingPlayerWinRate:Float
     defendingPlayerWinRate:Float
 }
 
+type FeatureFlags @aws_api_key @aws_iam{
+    registering:Boolean!
+}
+
+type CognitoResponse @aws_api_key {
+    success:Boolean
+    token:String
+}
+
+type Player @aws_api_key @aws_iam {
+    id:Int
+    name:String
+}
+
+type Move @aws_api_key @aws_iam {
+    id:Int
+    roundId:Int
+    playerId:Int
+    moveNumber:Int
+    action:String
+}
+
+type Fight @aws_api_key @aws_iam {
+    id:Int
+    gameId:Int
+    roundId:Int
+    attackingPlayer:String
+    defendingPlayer:String
+    winner:String
+    SimulationResult:SimulationResult
+}
+
+type Round @aws_api_key @aws_iam {
+    id:Int
+    gameId:Int
+    roundNumber:Int
+    moves:[Move]
+    fights:[Fight]
+}
+
+type Game @aws_api_key @aws_iam {
+    id:Int
+    name:String
+    date:String
+    players:[Player]
+    rounds:[Round]
+    winner:String
+}
+
+type RDSResult @aws_api_key @aws_iam {
+    games:[Game]
+    players:[Player]
+}
+
 type Query {
-    dummyQuery(arg:String):String
+    getFeatureFlags:FeatureFlags
+    @aws_api_key @aws_iam
+    getPlayers(playerNames:[String]):RDSResult
+    @aws_api_key @aws_iam
+    getGames(gameNames:[String]):RDSResult
+    @aws_api_key @aws_iam
 }
 
 type Mutation {
     simulateFight(attackingPlayerFleet:FleetInput, defendingPlayerFleet:FleetInput, repetitions:Int): SimulationResult
     @aws_auth(cognito_groups: ["ADMIN", "USER"])
+    updateFeatureFlags(featureFlags:FeatureFlagsInput!):FeatureFlags
+    @aws_auth(cognito_groups: ["ADMIN"])
+    login(credentials:CognitoInput):CognitoResponse
+    @aws_api_key
+    register(credentials:CognitoInput):CognitoResponse
+    @aws_api_key
+    upsertGame(game:GameInput):RDSResult
+    @aws_api_key @aws_iam @aws_auth(cognito_groups: ["ADMIN", "USER"])
 }
 
 schema {

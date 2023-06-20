@@ -1,5 +1,8 @@
+C:\Users\kacpe\projects\eclipse-simulator\eclipse-simulator\eclipse-simulator-handlers\src\test\java\pwr\api\BaseIntegrationTest.java
+C:\Users\kacpe\projects\eclipse-simulator\eclipse-simulator\eclipse-simulator-handlers\src\test\java\pwr\api\handler\FeatureFlagsHandlerIntegrationTest.java
 C:\Users\kacpe\projects\eclipse-simulator\eclipse-simulator\eclipse-simulator-handlers\src\test\java\pwr\api\handler\helpers\LambdaMockContext.java
 C:\Users\kacpe\projects\eclipse-simulator\eclipse-simulator\eclipse-simulator-handlers\src\test\java\pwr\api\dynamodb\DynamoDBClientIntegrationTest.java
 C:\Users\kacpe\projects\eclipse-simulator\eclipse-simulator\eclipse-simulator-handlers\src\test\java\pwr\api\handler\SimulationHandlerIntegrationTest.java
-C:\Users\kacpe\projects\eclipse-simulator\eclipse-simulator\eclipse-simulator-handlers\src\test\java\pwr\api\handler\CognitoClientIntegrationTest.java
+C:\Users\kacpe\projects\eclipse-simulator\eclipse-simulator\eclipse-simulator-handlers\src\test\java\pwr\api\handler\CognitoHandlerIntegrationTest.java
 C:\Users\kacpe\projects\eclipse-simulator\eclipse-simulator\eclipse-simulator-handlers\src\test\java\pwr\api\dto\FleetDTOIntegrationTest.java
+C:\Users\kacpe\projects\eclipse-simulator\eclipse-simulator\eclipse-simulator-handlers\src\test\java\pwr\api\rds\RDSClientIntegrationTest.java

@@ -1,6 +1,7 @@
 pwr\api\dto\FleetDTOIntegrationTest.class
-pwr\api\dynamodb\DynamoDBClientIntegrationTest.class
-pwr\api\handler\CognitoClientIntegrationTest.class
-pwr\api\handler\helpers\LambdaMockContext$TestLogger.class
 pwr\api\handler\helpers\LambdaMockContext.class
+pwr\api\dynamodb\DynamoDBClientIntegrationTest.class
+pwr\api\handler\CognitoHandlerIntegrationTest.class
+pwr\api\handler\FeatureFlagsHandlerIntegrationTest.class
+pwr\api\handler\helpers\LambdaMockContext$TestLogger.class
 pwr\api\handler\SimulationHandlerIntegrationTest.class

@@ -26,7 +26,9 @@ Resources:
       UserPoolConfig:
         UserPoolId: !Ref EclipseSimulatorCognitoUserPool
         AwsRegion: eu-west-2
-        DefaultAction: DENY
+        DefaultAction: ALLOW
+      AdditionalAuthenticationProviders:
+        - AuthenticationType: API_KEY
 
   EclipseSimulatorApiSchema:
     Type: AWS::AppSync::GraphQLSchema
@@ -48,13 +50,14 @@ Resources:
   SimulationFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Description: Hello world function
       CodeUri: ../eclipse-simulator-handlers/target/lambda.jar
       Handler: pwr.api.handler.SimulationHandler::handleRequest
       Runtime: java11
-      Timeout: 20
+      Timeout: 30
+      MemorySize: 1024
       Policies:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Ref ESDynamoDbPolicy
 
   SimulationPipelineResolver:
     Type: AWS::AppSync::Resolver
@@ -181,7 +184,6 @@ Resources:
       GroupName: USER
       UserPoolId: !Ref EclipseSimulatorCognitoUserPool
 
-
   EclipseSimulatorDynamoDBTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -200,39 +202,7 @@ Resources:
         - AttributeName: "defending_fleet_hash"
           KeyType: "RANGE"
 
-  EclipseSimulatorDynamoDBPolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: EclipseSimulatorDynamoDBPolicy
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: "Allow"
-            Action: "dynamodb:Query"
-            Resource: !GetAtt EclipseSimulatorDynamoDBTable.Arn
-          - Effect: "Allow"
-            Action: "dynamodb:PutItem"
-            Resource: !GetAtt EclipseSimulatorDynamoDBTable.Arn
-          - Effect: "Allow"
-            Action: "dynamodb:UpdateItem"
-            Resource: !GetAtt EclipseSimulatorDynamoDBTable.Arn
-      Roles:
-        - !Ref EclipseSimulatorDynamoDBRole
-
-  EclipseSimulatorDynamoDBRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          -   Effect: Allow
-              Principal:
-                Service:
-                  - dynamodb.amazonaws.com
-              Action:
-                - sts:AssumeRole
-
-  Role:
+  GithubRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -257,3 +227,399 @@ Resources:
         - sts.amazonaws.com
       ThumbprintList:
         - 6938fd4d98bab03faadb97b34396831e3780aea1
+
+  ESAppConfig:
+    Type: AWS::AppConfig::Application
+    Properties:
+      Name: "ES"
+
+  ESAppConfigEnv:
+    Type: AWS::AppConfig::Environment
+    Properties:
+      ApplicationId: !Ref ESAppConfig
+      Name: ESAppConfigEnv
+
+  ESConfigurationProfile:
+    Type: AWS::AppConfig::ConfigurationProfile
+    Properties:
+      ApplicationId: !Ref ESAppConfig
+      Name: "Features"
+      LocationUri: "hosted"
+
+  ESFeatureFlagsConfigurationVersion:
+    Type: AWS::AppConfig::HostedConfigurationVersion
+    Properties:
+      ApplicationId: !Ref ESAppConfig
+      ConfigurationProfileId: !Ref ESConfigurationProfile
+      Content: !Sub |
+        {
+            "registering": true
+        }
+      ContentType: "application/json"
+      LatestVersionNumber: 1
+
+  ESCustomDeploymentStrategy:
+    Type: AWS::AppConfig::DeploymentStrategy
+    Properties:
+      Name: "ESCustomDeploymentStrategy"
+      DeploymentDurationInMinutes: 0
+      FinalBakeTimeInMinutes: 0
+      GrowthFactor: 100
+      GrowthType: "LINEAR"
+      ReplicateTo: "NONE"
+
+  ESAppConfigDeployment:
+    Type: AWS::AppConfig::Deployment
+    DependsOn: ESFeatureFlagsConfigurationVersion
+    Properties:
+      ApplicationId: !Ref ESAppConfig
+      EnvironmentId: !Ref ESAppConfigEnv
+      DeploymentStrategyId: !Ref ESCustomDeploymentStrategy
+      ConfigurationProfileId: !Ref ESConfigurationProfile
+      ConfigurationVersion: "1"
+
+  ESAppConfigIntegrationPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Permissions for AppConfig usage
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -   Effect: 'Allow'
+              Action: [
+                'appconfig:GetLatestConfiguration',
+                'appconfig:StartConfigurationSession',
+                'appconfig:DeleteHostedConfigurationVersion',
+                'appconfig:ListEnvironments',
+                'appconfig:StartDeployment',
+                'appconfig:ListConfigurationProfiles',
+                'appconfig:ListApplications',
+                'appconfig:ListDeployments',
+                'appconfig:ListDeploymentStrategies',
+                'appconfig:CreateHostedConfigurationVersion',
+                'appconfig:ListHostedConfigurationVersions'
+              ]
+              Resource: '*'
+
+  FeatureFlagsLambdaDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      Name: FeatureFlagsLambdaDataSource
+      Type: AWS_LAMBDA
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      ServiceRoleArn: !GetAtt EclipseSimulatorServiceRole.Arn
+      LambdaConfig:
+        LambdaFunctionArn: !GetAtt FeatureFlagsFunction.Arn
+
+  GetFeatureFlagsPipelineResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      TypeName: Query
+      FieldName: "getFeatureFlags"
+      # language=VTL
+      RequestMappingTemplate: |
+        $util.qr($ctx.stash.put("args", $ctx.args))
+        $util.qr($ctx.stash.put("operation_type", "GET"))
+        {}
+      # language=VTL
+      ResponseMappingTemplate: $util.toJson($context.result)
+      Kind: "PIPELINE"
+      PipelineConfig:
+        Functions:
+          - !GetAtt FeatureFlagsPipelineFunction.FunctionId
+
+  UpdateFeatureFlagsPipelineResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      TypeName: Mutation
+      FieldName: "updateFeatureFlags"
+      # language=VTL
+      RequestMappingTemplate: |
+        $util.qr($ctx.stash.put("args", $ctx.args))
+        $util.qr($ctx.stash.put("operation_type", "UPDATE"))
+        {}
+      # language=VTL
+      ResponseMappingTemplate: $util.toJson($context.result)
+      Kind: "PIPELINE"
+      PipelineConfig:
+        Functions:
+          - !GetAtt FeatureFlagsPipelineFunction.FunctionId
+
+  FeatureFlagsPipelineFunction:
+    Type: AWS::AppSync::FunctionConfiguration
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      Name: "FeatureFlagsPipelineFunction"
+      Description: "Update feature flags pipeline function"
+      DataSourceName: !GetAtt FeatureFlagsLambdaDataSource.Name
+      # language=VTL
+      RequestMappingTemplate: |
+        {
+            "version": "2017-02-28",
+            "operation": "Invoke",
+            "payload": {
+                "featureFlags": $util.toJson($ctx.stash.args.featureFlags),
+                "operationType": $util.toJson($ctx.stash.operation_type)
+            }
+        }
+      # language=VTL
+      ResponseMappingTemplate: |
+        #foreach($error in $ctx.result.errors)
+            $util.appendError("${error.message}", $error.type, "", $error.errorCode)
+        #end
+        $util.toJson($ctx.result.response)
+      FunctionVersion: "2018-05-29"
+
+  FeatureFlagsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: java11
+      CodeUri: ../eclipse-simulator-handlers/target/lambda.jar
+      Handler: pwr.api.handler.FeatureFlagsHandler::handleRequest
+      Timeout: 20
+      Policies:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Ref ESAppConfigIntegrationPolicy
+      MemorySize: 512
+      Environment:
+        Variables:
+          APP_CONFIG_APPLICATION_ID: !Ref ESAppConfig
+          APP_CONFIG_CONFIGURATION_PROFILE_ID: !Ref ESConfigurationProfile
+          APP_CONFIG_ENVIRONMENT_ID: !Ref ESAppConfigEnv
+
+  CognitoLambdaDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      Name: CognitoLambdaDataSource
+      Type: AWS_LAMBDA
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      ServiceRoleArn: !GetAtt EclipseSimulatorServiceRole.Arn
+      LambdaConfig:
+        LambdaFunctionArn: !GetAtt CognitoFunction.Arn
+
+  CognitoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../eclipse-simulator-handlers/target/lambda.jar
+      Handler: pwr.api.handler.CognitoHandler::handleRequest
+      Runtime: java11
+      Timeout: 20
+      Policies:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Ref ESCognitoDbPolicy
+        - !Ref ESAppConfigIntegrationPolicy
+      MemorySize: 512
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_ID: !Ref EclipseSimulatorCognitoUserPool
+          COGNITO_USER_POOL_CLIENT_ID: !Ref EclipseSimulatorUserPoolClient
+
+  CognitoLoginPipelineResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      TypeName: Mutation
+      FieldName: "login"
+      # language=VTL
+      RequestMappingTemplate: |
+        $util.qr($ctx.stash.put("args", $ctx.args))
+        $util.qr($ctx.stash.put("operation_type", "LOGIN"))
+        {}
+      # language=VTL
+      ResponseMappingTemplate: |
+        $util.toJson($context.result)
+      Kind: "PIPELINE"
+      PipelineConfig:
+        Functions:
+          - !GetAtt CognitoPipelineFunction.FunctionId
+
+  CognitoRegisterPipelineResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      TypeName: Mutation
+      FieldName: "register"
+      # language=VTL
+      RequestMappingTemplate: |
+        $util.qr($ctx.stash.put("args", $ctx.args))
+        $util.qr($ctx.stash.put("operation_type", "REGISTER"))
+        {}
+      # language=VTL
+      ResponseMappingTemplate: |
+        $util.toJson($context.result)
+      Kind: "PIPELINE"
+      PipelineConfig:
+        Functions:
+          - !GetAtt CognitoPipelineFunction.FunctionId
+
+  CognitoPipelineFunction:
+    Type: AWS::AppSync::FunctionConfiguration
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      Name: "CognitoPipelineFunction"
+      Description: "Cognito pipeline function"
+      DataSourceName: !GetAtt CognitoLambdaDataSource.Name
+      # language=VTL
+      RequestMappingTemplate: |
+        {
+            "version": "2017-02-28",
+            "operation": "Invoke",
+            "payload": {
+                "credentials": $util.toJson($ctx.stash.args.credentials),
+                "operationType": $util.toJson($ctx.stash.operation_type)
+            }
+        }
+      # language=VTL
+      ResponseMappingTemplate: |
+        #foreach($error in $ctx.result.errors)
+          $util.appendError("${error.message}", $error.type, "", $error.errorCode)
+        #end
+        $util.toJson($ctx.result.response)
+      FunctionVersion: "2018-05-29"
+
+  RDSLambdaDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      Name: RDSLambdaDataSource
+      Type: AWS_LAMBDA
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      ServiceRoleArn: !GetAtt EclipseSimulatorServiceRole.Arn
+      LambdaConfig:
+        LambdaFunctionArn: !GetAtt RDSFunction.Arn
+
+  GetPlayersPipelineResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      TypeName: Query
+      FieldName: "getPlayers"
+      # language=VTL
+      RequestMappingTemplate: |
+        $util.qr($ctx.stash.put("args", $ctx.args))
+        $util.qr($ctx.stash.put("operation_type", "GET_PLAYERS"))
+        {}
+      # language=VTL
+      ResponseMappingTemplate: $util.toJson($context.result)
+      Kind: "PIPELINE"
+      PipelineConfig:
+        Functions:
+          - !GetAtt RDSPipelineFunction.FunctionId
+
+  GetGamesPipelineResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      TypeName: Query
+      FieldName: "getGames"
+      # language=VTL
+      RequestMappingTemplate: |
+        $util.qr($ctx.stash.put("args", $ctx.args))
+        $util.qr($ctx.stash.put("operation_type", "GET_GAMES"))
+        {}
+      # language=VTL
+      ResponseMappingTemplate: $util.toJson($context.result)
+      Kind: "PIPELINE"
+      PipelineConfig:
+        Functions:
+          - !GetAtt RDSPipelineFunction.FunctionId
+
+  UpsertGamePipelineResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      TypeName: Mutation
+      FieldName: "upsertGame"
+      # language=VTL
+      RequestMappingTemplate: |
+        $util.qr($ctx.stash.put("args", $ctx.args))
+        $util.qr($ctx.stash.put("operation_type", "UPSERT_GAME"))
+        {}
+      # language=VTL
+      ResponseMappingTemplate: $util.toJson($context.result)
+      Kind: "PIPELINE"
+      PipelineConfig:
+        Functions:
+          - !GetAtt RDSPipelineFunction.FunctionId
+
+  RDSPipelineFunction:
+    Type: AWS::AppSync::FunctionConfiguration
+    Properties:
+      ApiId: !GetAtt EclipseSimulatorApi.ApiId
+      Name: "RDSPipelineFunction"
+      Description: "RDS pipeline function"
+      DataSourceName: !GetAtt RDSLambdaDataSource.Name
+      # language=VTL
+      RequestMappingTemplate: |
+        {
+            "version": "2017-02-28",
+            "operation": "Invoke",
+            "payload": {
+                "gameNames": $util.toJson($ctx.stash.args.gameNames),
+                "playerNames": $util.toJson($ctx.stash.args.playerNames),
+                "game": $util.toJson($ctx.stash.args.game),
+                "operationType": $util.toJson($ctx.stash.operation_type)
+            }
+        }
+      # language=VTL
+      ResponseMappingTemplate: |
+        #foreach($error in $ctx.result.errors)
+            $util.appendError("${error.message}", $error.type, "", $error.errorCode)
+        #end
+        $util.toJson($ctx.result.response)
+      FunctionVersion: "2018-05-29"
+
+  RDSFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: java11
+      CodeUri: ../eclipse-simulator-handlers/target/lambda.jar
+      Handler: pwr.api.handler.RDSHandler::handleRequest
+      Timeout: 30
+      Policies:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Ref ESDynamoDbPolicy
+        - !Ref RDSPolicy
+      MemorySize: 2048
+
+  ESDynamoDbPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -   Effect: 'Allow'
+              Action:
+                - 'dynamodb:GetItem'
+                - 'dynamodb:PutItem'
+                - 'dynamodb:UpdateItem'
+                - 'dynamodb:Query'
+                - 'dynamodb:Scan'
+              Resource:
+                - '*'
+
+  RDSPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -   Effect: 'Allow'
+              Action: 'rds-data:*'
+              Resource:
+                - '*'
+
+  ESCognitoDbPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -   Effect: 'Allow'
+              Action:
+                - 'cognito-idp:SignUp'
+                - 'cognito-idp:AdminAddUserToGroup'
+                - 'cognito-idp:AdminConfirmSignUp'
+              Resource:
+                - '*'

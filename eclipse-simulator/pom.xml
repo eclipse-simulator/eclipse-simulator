@@ -48,20 +48,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <s3Bucket>test-eclipse-simulator-bucket-2</s3Bucket>
-                <environment>dev</environment>
-            </properties>
-        </profile>
-
-    </profiles>
-
 </project>

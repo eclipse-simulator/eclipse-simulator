@@ -3,11 +3,12 @@ package pwr.api.entity.ship;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import pwr.api.entity.upgrade.*;
-import pwr.api.exception.BaseException;
+import pwr.api.exception.ESApiException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static pwr.api.constants.Constants.errors.*;
 import static pwr.api.constants.Constants.ships.DREADNOUGHT_FIELDS_LIMIT;
 import static pwr.api.enums.ErrorCode.BAD_REQUEST_ERROR;
 import static pwr.api.enums.ExceptionType.ERROR;
@@ -36,13 +37,13 @@ public class Dreadnought extends Ship
         List<Field> fields = getFields();
         if(fields.isEmpty() || fields.size() > DREADNOUGHT_FIELDS_LIMIT)
         {
-            throw new BaseException(ERROR, "Dreadnought has to have 0-8 fields", BAD_REQUEST_ERROR);
+            throw new ESApiException(ERROR, DREADNOUGHT_FIELDS_ERROR_MESSAGE, BAD_REQUEST_ERROR);
         }
 
 
         if(fields.stream().noneMatch(field -> field.getFieldType().equals(DRIVE)))
         {
-            throw new BaseException(ERROR, "Dreadnought has to have a drive", BAD_REQUEST_ERROR);
+            throw new ESApiException(ERROR, DREADNOUGHT_HAS_NO_DRIVE_ERROR_MESSAGE, BAD_REQUEST_ERROR);
         }
 
         int energyBalance = 0;
@@ -52,7 +53,7 @@ public class Dreadnought extends Ship
         }
         if(energyBalance < 0)
         {
-            throw new BaseException(ERROR, "Dreadnought has not enough energy", BAD_REQUEST_ERROR);
+            throw new ESApiException(ERROR, DREADNOUGHT_HAS_NOT_ENOUGH_ENERGY_ERROR_MESSAGE, BAD_REQUEST_ERROR);
         }
     }
 }

@@ -2,10 +2,11 @@ package pwr.api.handler;
 
 import pwr.api.dto.FleetDTO;
 import pwr.api.dto.ShipDTO;
+import pwr.api.dynamodb.DynamoDBClient;
 import pwr.api.entity.ship.Ship;
 import pwr.api.enums.FieldName;
 import pwr.api.enums.ShipType;
-import pwr.api.exception.BaseException;
+import pwr.api.exception.ESApiException;
 import pwr.api.request.SimulationRequestData;
 import pwr.api.response.SimulationResponseData;
 import pwr.api.simulation.Simulation;
@@ -14,6 +15,8 @@ import pwr.api.simulation.SimulationResult;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pwr.api.constants.Constants.errors.FLEETS_CANT_BE_EMPTY_ERROR_MESSAGE;
+import static pwr.api.constants.Constants.errors.REPETITION_NUMBER_CANNOT_BE_ZERO_ERROR_MESSAGE;
 import static pwr.api.enums.ErrorCode.BAD_REQUEST_ERROR;
 import static pwr.api.enums.ExceptionType.ERROR;
 
@@ -26,6 +29,7 @@ public class SimulationHandler extends BaseHandler<SimulationRequestData, Simula
     @Override
     public SimulationResponseData processRequest(SimulationRequestData simulationRequestData)
     {
+        DynamoDBClient client = new DynamoDBClient();
 
         validateRequest(simulationRequestData);
 
@@ -43,6 +47,10 @@ public class SimulationHandler extends BaseHandler<SimulationRequestData, Simula
         System.out.println(ATTACKING_PLAYER_WIN_RATE + simulationResult.getAttackingPlayerWinRate() + PERCENTAGE);
         System.out.println(DEFENDING_PLAYER_WIN_RATE + simulationResult.getDefendingPlayerWinRate() + PERCENTAGE);
 
+        client.updateItem(simulationRequestData.getAttackingPlayerFleet(),
+                simulationRequestData.getDefendingPlayerFleet(),
+                simulationResult);
+
         return new SimulationResponseData(simulationResult);
     }
 
@@ -53,12 +61,12 @@ public class SimulationHandler extends BaseHandler<SimulationRequestData, Simula
         FleetDTO defendingPlayerFleet = request.getDefendingPlayerFleet();
 
         if(request.getRepetitions() < 0)
-            throw new BaseException(ERROR, "Repetitions number must be bigger then 0", BAD_REQUEST_ERROR);
+            throw new ESApiException(ERROR, REPETITION_NUMBER_CANNOT_BE_ZERO_ERROR_MESSAGE, BAD_REQUEST_ERROR);
 
         if(attackingPlayerFleet == null || defendingPlayerFleet == null || attackingPlayerFleet.getShips() == null ||
                 defendingPlayerFleet.getShips() == null || attackingPlayerFleet.getShips().isEmpty() ||
                 defendingPlayerFleet.getShips().isEmpty())
-            throw new BaseException(ERROR, "Fleet can't be empty", BAD_REQUEST_ERROR);
+            throw new ESApiException(ERROR, FLEETS_CANT_BE_EMPTY_ERROR_MESSAGE, BAD_REQUEST_ERROR);
     }
 
     private List<Ship> toShipList(List<ShipDTO> shipDTOList)
